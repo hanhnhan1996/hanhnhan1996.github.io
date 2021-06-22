@@ -1,0 +1,25 @@
+function doPost(e) {
+try {
+const data = JSON.parse(e.postData.contents)
+let row = [data.ws, data.id, data.class, new Date() ]
+SpreadsheetApp
+      .getActive()
+      .getSheetByName('log')
+      .appendRow(row)
+// app.getSheetByName('log').appendRow(row)
+// const app = SpreadsheetApp.getActive();
+// app.getSheetByName("log").getRange("A190").setValue(e.postData.contents)
+
+return ContentService
+.createTextOutput(JSON.stringify({ success: true, message: `Nhan du lieu ${data.class}, ${data.ws}, ${data.id}` }))
+.setMimeType(ContentService.MimeType.JSON)
+} catch(e) {
+return ContentService
+.createTextOutput(JSON.stringify({success: false, message: 'That bai',e}))
+.setMimeType(ContentService.MimeType.JSON)
+}
+}
+
+function doGet() {
+   return HtmlService.createHtmlOutputFromFile('index')
+}
